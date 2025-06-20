@@ -1,0 +1,42 @@
+package br.com.vieira.srv.manager.controller;
+
+import br.com.vieira.srv.manager.dto.ProductDTO;
+import br.com.vieira.srv.manager.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
+
+@CrossOrigin
+@RestController
+@RequestMapping("/products")
+public class ProductController {
+
+    @Autowired
+    private ProductService productService;
+
+    @GetMapping
+    public Page<ProductDTO> listProducts(Pageable pageable) {
+        return productService.findAll(pageable);
+    }
+
+    @GetMapping("/{id}")
+    public ProductDTO getProduct(@PathVariable Long id) {
+        return productService.findById(id);
+    }
+
+    @PostMapping
+    public ProductDTO createProduct(@RequestBody ProductDTO productDTO) {
+        return productService.createProduct(productDTO);
+    }
+
+    @PutMapping("/{id}")
+    public ProductDTO updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        return productService.updateProduct(id, productDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+    }
+}

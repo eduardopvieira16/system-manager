@@ -1,0 +1,6 @@
+1750363729075	Rename type 'Inventory'
+1750363797856	Rename type 'InventoryDTO'
+1750363820242	Rename type 'InventoryRepository'
+1750363833302	Rename type 'InventoryService'
+1750363843714	Rename type 'InventoryServiceImpl'
+1750363867859	Rename type 'InventoryController'

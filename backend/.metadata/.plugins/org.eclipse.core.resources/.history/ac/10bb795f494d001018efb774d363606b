@@ -1,0 +1,16 @@
+package br.com.vieira.srv.manager.dto;
+
+import java.time.LocalDateTime;
+
+import br.com.vieira.srv.manager.enums.MovementType;
+import lombok.Data;
+
+
+@Data
+public class InventoryDTO {
+	private Long id;
+	private Long productId;
+	private Integer quantity;
+	private MovementType movementType;
+	private LocalDateTime movementDate;
+}

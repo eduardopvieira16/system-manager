@@ -1,0 +1,60 @@
+package br.com.vieira.srv.manager.service.impl;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.com.vieira.srv.manager.dto.StockMovementsDTO;
+import br.com.vieira.srv.manager.exception.ResourceNotFoundException;
+import br.com.vieira.srv.manager.model.StockMovements;
+import br.com.vieira.srv.manager.model.Product;
+import br.com.vieira.srv.manager.repository.StockMovementsRepository;
+import br.com.vieira.srv.manager.repository.ProductRepository;
+import br.com.vieira.srv.manager.service.InventoryService;
+
+@Service
+public class InventoryServiceImpl implements InventoryService {
+
+	@Autowired
+	private StockMovementsRepository stockMovementsRepository;
+
+	@Autowired
+	private ProductRepository productRepository;
+
+	@Override
+	public List<StockMovementsDTO> findAll() {
+		return stockMovementsRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+	}
+
+	@Override
+	public StockMovementsDTO findById(Long id) {
+		StockMovements stockMovements = stockMovementsRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Movimentação não encontrada"));
+		return toDTO(stockMovements);
+	}
+
+	@Override
+	public StockMovementsDTO createInventory(StockMovementsDTO stockMovementsDTO) {
+		Product product = productRepository.findById(stockMovementsDTO.getProductId())
+				.orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
+		StockMovements stockMovements = new StockMovements();
+		stockMovements.setProduct(product);
+		stockMovements.setQuantity(stockMovementsDTO.getQuantity());
+		stockMovements.setMovementType(stockMovementsDTO.getMovementType());
+		stockMovements.setMovementDate(stockMovementsDTO.getMovementDate());
+		stockMovements = stockMovementsRepository.save(stockMovements);
+		return toDTO(stockMovements);
+	}
+
+	private StockMovementsDTO toDTO(StockMovements stockMovements) {
+		StockMovementsDTO dto = new StockMovementsDTO();
+		dto.setId(stockMovements.getId());
+		dto.setProductId(stockMovements.getProduct().getId());
+		dto.setQuantity(stockMovements.getQuantity());
+		dto.setMovementType(stockMovements.getMovementType());
+		dto.setMovementDate(stockMovements.getMovementDate());
+		return dto;
+	}
+}

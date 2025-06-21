@@ -1,7 +1,0 @@
-package br.com.vieira.srv.manager.repository;
-
-import br.com.vieira.srv.manager.model.StockMovements;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface InventoryRepository extends JpaRepository<StockMovements, Long> {
-}

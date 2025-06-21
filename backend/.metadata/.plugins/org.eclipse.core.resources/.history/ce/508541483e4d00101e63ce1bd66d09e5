@@ -1,5 +1,0 @@
-package br.com.vieira.srv.manager.config;
-
-public class CorsConfig {
-
-}

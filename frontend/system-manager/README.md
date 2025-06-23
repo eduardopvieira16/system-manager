@@ -1,5 +1,3 @@
-# Welcome to your Lovable project
-
 ```sh
 git clone <YOUR_GIT_URL>
 
